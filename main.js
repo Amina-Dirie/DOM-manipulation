@@ -26,37 +26,34 @@ function passwordStrength(password) {
 }
 
 function updateProgressBar(strength) {
-	if (strength === -1) {
+	switch (strength) {
+	  case -1:
 		progressBar.style.width = "0%";
 		progressBar.classList = "progress-bar";
 		progressText.textContent = "";
-		return;
-	}
-	if (strength === 100) {
+		break;
+	  case 100:
 		progressBar.style.width = "100%";
 		progressBar.classList = "progress-bar green";
 		progressText.textContent = "GRRRREAT!";
-		return;
+		break;
+	  default:
+		progressBar.style.width = `${strength}%`;
+		if (strength < 40) {
+		  progressBar.classList = "progress-bar";
+		  progressText.textContent = "";
+		} else if (strength < 80) {
+		  progressBar.classList = "progress-bar orange";
+		  progressText.textContent = "PRETTY GOOD";
+		} else {
+		  progressBar.classList = "progress-bar green";
+		  progressText.textContent = "GRRRREAT!";
+		}
+		break;
 	}
+  }
 
-	progressBar.style.width = `${strength}%`;
-	if (strength < 40) {
-		progressBar.classList = "progress-bar";
-		progressText.textContent = "";
-	} else if (strength < 80) {
-		progressBar.classList = "progress-bar orange";
-		progressText.textContent = "PRETTY GOOD";
-	} else {
-		progressBar.classList = "progress-bar green";
-		progressText.textContent = "GRRRREAT!";
-	}
-}
-
-function updateFeedbackText(strength) {
-	if (strength === -1) {
-		feedbackText.style.display = "block";
-		feedbackText.textContent = "Should be longer";
-	} else {
-		feedbackText.style.display = "none";
-	}
-}
+  function updateFeedbackText(strength) {
+	feedbackText.style.display = strength === -1 ? "block" : "none";
+	feedbackText.textContent = strength === -1 ? "Should be longer" : "";
+  }
